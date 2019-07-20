@@ -23,7 +23,7 @@ class MazeFactory {
         return new Maze(rows, cols, 0, rand.nextInt(cols), rows - 1, rand.nextInt(cols), density);
     }
 
-    static Maze MiddleStartGoal(int rows, int cols, double density) {
+    static Maze middleStartGoal(int rows, int cols, double density) {
         Random rand = new Random();
 
         return new Maze(rows, cols, 0, cols/2, rows - 1, cols/2, density);
