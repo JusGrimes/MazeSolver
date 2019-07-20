@@ -9,6 +9,10 @@ public class Maze {
     public Maze(int rows, int cols, int startRow, int startCol, int goalRow, int goalCol, double density) {
         final Random rand = new Random();
         grid = new State[rows][cols];
+        if (startRow < 0 || startCol < 0 || goalRow < 0 || goalCol < 0
+        ||  startRow >= rows || startCol >= cols || goalRow >= rows || goalCol > cols) {
+            throw new IllegalArgumentException("Goal or Start are outside of grid");
+        }
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
