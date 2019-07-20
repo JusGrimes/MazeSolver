@@ -18,7 +18,7 @@ public class Main {
         System.out.print("Density: ");
         double density = Double.parseDouble(in.nextLine());
 
-        firstMaze = MazeFactory.standardMaze(rows, cols, density);
+        firstMaze = MazeFactory.middleStartGoal(rows, cols, density);
         System.out.println("Standard Maze");
         System.out.println("\n" + firstMaze);
 //        System.out.println("Open Maze");
