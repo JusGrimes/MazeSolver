@@ -81,4 +81,8 @@ public class Maze {
             return "Array is Empty";
         }
     }
+
+    public void setLocationState(int row, int col, State newState) {
+        grid[row][col] = newState;
+    }
 }
