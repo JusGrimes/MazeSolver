@@ -1,6 +1,8 @@
 package com.justin;
 
+import java.util.Arrays;
 import java.util.Random;
+
 
 public class Maze {
 
@@ -30,6 +32,21 @@ public class Maze {
         }
     }
 
+    public Maze(State[][] grid){
+        if (grid == null) throw new IllegalArgumentException();
+        this.grid = grid;
+    }
+
+    public Maze copy(){
+        State[][] retGrid = new State[grid.length][];
+        for (int i = 0; i < grid.length; i++) {
+
+            retGrid[i] = Arrays.copyOf(grid[i],grid[i].length);
+        }
+
+        return new Maze(retGrid);
+    }
+
     private boolean outsideGrid(int row, int col, int startRow, int startCol, int goalRow, int goalCol) {
         // determines if row,col are outside the grid
         return startRow < 0 || startCol < 0 || goalRow < 0 || goalCol < 0
@@ -38,6 +55,14 @@ public class Maze {
 
     public State getLocationState(int row, int col) {
         return grid[row][col];
+    }
+
+    public int getRowSize() {
+        return grid.length;
+    }
+
+    public int getColSize() {
+        return grid[0].length;
     }
 
 
