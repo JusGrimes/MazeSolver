@@ -24,7 +24,7 @@ public class Maze {
                 } else if (i == goalRow & j == goalCol) {
                     newState = State.GOAL;
                 } else {
-                    newState = rand.nextDouble() < density ? State.OPEN : State.BLOCKED;
+                    newState = rand.nextDouble() > density ? State.OPEN : State.BLOCKED;
                 }
                 grid[i][j] = newState;
             }
