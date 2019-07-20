@@ -32,7 +32,7 @@ public class Maze {
         }
     }
 
-    public Maze(State[][] grid){
+    private Maze(State[][] grid){
         if (grid == null) throw new IllegalArgumentException();
         this.grid = grid;
     }
@@ -53,15 +53,15 @@ public class Maze {
         ||  startRow >= row || startCol >= col || goalRow >= row || goalCol > col;
     }
 
-    public State getLocationState(int row, int col) {
+    State getLocationState(int row, int col) {
         return grid[row][col];
     }
 
-    public int getRowSize() {
+    int getRowSize() {
         return grid.length;
     }
 
-    public int getColSize() {
+    int getColSize() {
         return grid[0].length;
     }
 
@@ -82,7 +82,7 @@ public class Maze {
         }
     }
 
-    public void setLocationState(int row, int col, State newState) {
+    void setLocationState(int row, int col, State newState) {
         grid[row][col] = newState;
     }
 }
