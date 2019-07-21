@@ -23,11 +23,11 @@ public class Main {
         System.out.println("Standard Maze");
         System.out.println("\n" + firstMaze);
 
-        System.out.println("Solved Maze");
-
-        MazeSolver solver = new MazeSolver(firstMaze.copy());
-        solver.solveDFS();
-        System.out.println(solver.getMaze());
+//        System.out.println("Solved Maze");
+//
+//        MazeSolver solver = new MazeSolver(firstMaze.copy());
+//        solver.solveDFS();
+//        System.out.println(solver.getMaze());
 
 //        System.out.println("Open Maze");
 //        System.out.println("\n" + MazeFactory.openMaze(rows, cols));

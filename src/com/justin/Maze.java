@@ -8,28 +8,24 @@ public class Maze {
 
     private State[][] grid;
 
-    Maze(int rows, int cols, int startRow, int startCol, int goalRow, int goalCol, double density) {
+    Maze(int rows, int cols, Location start, Location goal, double density) {
         final Random rand = new Random();
         grid = new State[rows][cols];
-        if (outsideGrid(rows, cols, startRow, startCol, goalRow, goalCol)) {
+        if (outsideGrid(rows, cols, start.getRow(), start.getCol(), goal.getRow(), goal.getCol())) {
             throw new IllegalArgumentException("Goal or Start are outside of grid");
+        }
+        if (rows <= 0 || cols <= 0){
+            throw new IllegalArgumentException("Row and Col must be greater than 0");
         }
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-
-                State newState;
-
-                if (i == startRow && j == startCol) {
-                    newState = State.START;
-                } else if (i == goalRow & j == goalCol) {
-                    newState = State.GOAL;
-                } else {
-                    newState = rand.nextDouble() > density ? State.OPEN : State.BLOCKED;
-                }
-                grid[i][j] = newState;
+                grid[i][j] = rand.nextDouble() > density ? State.OPEN : State.BLOCKED;
             }
         }
+        grid[start.getRow()][start.getCol()] = State.START;
+        grid[goal.getRow()][goal.getCol()] = State.GOAL;
+
     }
 
     private Maze(State[][] grid){
@@ -47,14 +43,14 @@ public class Maze {
         return new Maze(retGrid);
     }
 
-    private boolean outsideGrid(int row, int col, int startRow, int startCol, int goalRow, int goalCol) {
+    private boolean outsideGrid(int rows, int cols, int startRow, int startCol, int goalRow, int goalCol) {
         // determines if row,col are outside the grid
         return startRow < 0 || startCol < 0 || goalRow < 0 || goalCol < 0
-        ||  startRow >= row || startCol >= col || goalRow >= row || goalCol > col;
+        ||  startRow >= rows || startCol >= cols || goalRow >= rows || goalCol > cols;
     }
 
-    State getLocationState(int row, int col) {
-        return grid[row][col];
+    State getLocationState(Location loc) {
+        return grid[loc.getRow()][loc.getCol()];
     }
 
     int getRowSize() {
@@ -82,7 +78,7 @@ public class Maze {
         }
     }
 
-    void setLocationState(int row, int col, State newState) {
-        grid[row][col] = newState;
+    void setLocationState(Location loc, State newState) {
+        grid[loc.getRow()][loc.getRow()] = newState;
     }
 }

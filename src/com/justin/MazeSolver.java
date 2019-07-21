@@ -22,7 +22,7 @@ public class MazeSolver {
 
     public void solveDFS(){
         for (int i = 0; i < colSize; i++) {
-            if (maze.getLocationState(0,i) == State.START) {
+            if (maze.getLocationState(new Location(0,i)) == State.START) {
                 DFS(0,i-1);
                 DFS(0,i+1);
                 DFS(1,i);
@@ -35,11 +35,11 @@ public class MazeSolver {
 
         if (outOfBounds(row,col)) return;
 
-        State locationState = maze.getLocationState(row, col);
+        State locationState = maze.getLocationState(new Location(row, col));
 
         if (locationState != State.OPEN) return;
 
-        maze.setLocationState(row, col, State.PATH);
+        maze.setLocationState(new Location(row,col), State.PATH);
 
         DFS(row,col-1);
         DFS(row,col+1);
