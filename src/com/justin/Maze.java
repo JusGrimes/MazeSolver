@@ -103,12 +103,4 @@ public class Maze {
     public Location getGoal() {
         return goal;
     }
-
-    public Location getStart() {
-        return start;
-    }
-
-    public Location getGoal() {
-        return goal;
-    }
 }
