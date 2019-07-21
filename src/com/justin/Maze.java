@@ -1,11 +1,16 @@
 package com.justin;
 
+import javax.imageio.spi.ImageInputStreamSpi;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 
 public class Maze {
 
+    Location start;
+    Location goal;
     private State[][] grid;
 
     Maze(int rows, int cols, Location start, Location goal, double density) {
@@ -25,7 +30,8 @@ public class Maze {
         }
         grid[start.getRow()][start.getCol()] = State.START;
         grid[goal.getRow()][goal.getCol()] = State.GOAL;
-
+        this.start = start;
+        this.goal = goal;
     }
 
     private Maze(State[][] grid){
@@ -66,12 +72,18 @@ public class Maze {
     public String toString() {
         try {
             StringBuilder sb = new StringBuilder();
+            IntStream.range(0,grid[0].length +2).forEach(a->sb.append('-'));
+            sb.append("\n");
             for (State[] row : grid) {
+                sb.append("|");
                 for (int col = 0; col < grid[0].length; col++) {
                     sb.append(row[col].getGlyph());
                 }
+                sb.append("|");
                 sb.append('\n');
             }
+            IntStream.range(0, grid[0].length + 2).forEach(a -> sb.append('-'));
+            sb.append("\n");
             return sb.toString();
         } catch (NullPointerException e) {
             return "Array is Empty";
