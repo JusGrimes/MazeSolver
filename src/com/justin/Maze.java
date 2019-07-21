@@ -93,4 +93,12 @@ public class Maze {
     void setLocationState(Location loc, State newState) {
         grid[loc.getRow()][loc.getRow()] = newState;
     }
+
+    public Location getStart() {
+        return start;
+    }
+
+    public Location getGoal() {
+        return goal;
+    }
 }
