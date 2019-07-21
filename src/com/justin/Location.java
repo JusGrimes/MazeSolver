@@ -17,4 +17,15 @@ public class Location {
     public int getCol() {
         return col;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) throw new NullPointerException();
+        if (obj.getClass() != Location.class) {
+            throw new IllegalArgumentException("not the same class");
+        }
+        Location comp = (Location) obj;
+
+        return row == ((Location) obj).row & col == ((Location) obj).col;
+    }
 }
