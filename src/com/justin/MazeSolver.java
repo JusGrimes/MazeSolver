@@ -1,5 +1,7 @@
 package com.justin;
 
+import java.util.Stack;
+
 public class MazeSolver {
     private Maze maze;
     final private int rowSize;
@@ -21,30 +23,23 @@ public class MazeSolver {
     }
 
     public void solveDFS(){
-        for (int i = 0; i < colSize; i++) {
-            if (maze.getLocationState(new Location(0,i)) == State.START) {
-                DFS(0,i-1);
-                DFS(0,i+1);
-                DFS(1,i);
-                break;
-            }
-        }
+
     }
 
-    private void DFS(int row, int col){
+    private void DFS(Location loc, Stack<Node> path){
 
-        if (outOfBounds(row,col)) return;
+        if (outOfBounds(loc.getRow(),loc.getCol())) return;
 
-        State locationState = maze.getLocationState(new Location(row, col));
+        State locationState = maze.getLocationState(loc);
 
         if (locationState != State.OPEN) return;
 
-        maze.setLocationState(new Location(row,col), State.PATH);
+        maze.setLocationState(loc, State.PATH);
 
-        DFS(row,col-1);
-        DFS(row,col+1);
-        DFS(row-1,col);
-        DFS(row+1,col);
+        DFS(new Location(loc.getRow(),loc.getCol()-1));
+        DFS(new Location(loc.getRow(),loc.getCol()+1));
+        DFS(new Location(loc.getRow()-1,loc.getCol()));
+        DFS(new Location(loc.getRow()+1,loc.getCol()));
 
     }
 }

@@ -4,15 +4,14 @@ public class Node {
 
     private Node parent;
     private State state;
-    private boolean visited;
+    private double cost;
+    private double heuristic;
 
-    public Node(Node parent, State state) {
+    public Node(Node parent, State state, double cost, double heuristic) {
         this.parent = parent;
         this.state = state;
-    }
-
-    public boolean isVisited() {
-        return visited;
+        this.cost = cost;
+        this.heuristic = heuristic;
     }
 
     public State getState() {
