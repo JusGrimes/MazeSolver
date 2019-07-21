@@ -21,4 +21,12 @@ public class Node {
     public Node getParent() {
         return parent;
     }
+
+    @Override
+    public String toString() {
+        return "Node{ Location{" +
+                "row: " + location.getRow() +
+                "col: " + location.getCol() +
+                "}}";
+    }
 }

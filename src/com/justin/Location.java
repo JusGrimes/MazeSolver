@@ -5,16 +5,16 @@ public class Location {
 
     private final int col;
 
-    public Location(int row, int col) {
+    Location(int row, int col) {
         this.row = row;
         this.col = col;
     }
 
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
-    public int getCol() {
+    int getCol() {
         return col;
     }
 
@@ -27,5 +27,13 @@ public class Location {
         Location comp = (Location) obj;
 
         return row == ((Location) obj).row & col == ((Location) obj).col;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "row=" + row +
+                ", col=" + col +
+                '}';
     }
 }
