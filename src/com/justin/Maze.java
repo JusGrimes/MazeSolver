@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 
 public class Maze {
 
-    Location start;
-    Location goal;
+    private Location start;
+    private Location goal;
     private State[][] grid;
 
     Maze(int rows, int cols, Location start, Location goal, double density) {
@@ -34,19 +34,21 @@ public class Maze {
         this.goal = goal;
     }
 
-    private Maze(State[][] grid){
+    private Maze(State[][] grid, Location start, Location goal){
         if (grid == null) throw new IllegalArgumentException();
         this.grid = grid;
+        this.start = start;
+        this.goal = goal;
     }
 
-    public Maze copy(){
+    Maze copy(){
         State[][] retGrid = new State[grid.length][];
         for (int i = 0; i < grid.length; i++) {
 
             retGrid[i] = Arrays.copyOf(grid[i],grid[i].length);
         }
 
-        return new Maze(retGrid);
+        return new Maze(retGrid,start, goal);
     }
 
     private boolean outsideGrid(int rows, int cols, int startRow, int startCol, int goalRow, int goalCol) {
@@ -94,7 +96,7 @@ public class Maze {
         grid[loc.getRow()][loc.getRow()] = newState;
     }
 
-    public Location getStart() {
+    Location getStart() {
         return start;
     }
 
