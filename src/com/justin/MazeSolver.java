@@ -1,6 +1,10 @@
 package com.justin;
 
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.Stack;
+
 
 class MazeSolver {
     private Maze maze;
@@ -20,50 +24,65 @@ class MazeSolver {
         return maze;
     }
 
-    private boolean outOfBounds(int row, int col) {
-        return row < 0 || col < 0 || row >= rowSize || col >= colSize;
+    private boolean outOfBounds(Location loc) {
+        return loc.getRow() < 0 || loc.getCol() < 0 || loc.getRow() >= rowSize || loc.getCol() >= colSize;
     }
 
-    private void drawPath() {
-        for (Node curNode : solvedPath) {
-            Location loc = curNode.getLocation();
-            State locState = maze.getLocationState(loc);
-            if (locState!= State.GOAL && locState != State.START) {
-                maze.setLocationState(loc,State.PATH);
+    private void drawPath(Node goalPath) {
+
+        Node curNode = goalPath;
+
+        while (curNode != null) {
+            State curState = maze.getLocationState(curNode.getLocation());
+
+            if (curState != State.GOAL && curState != State.START) {
+                maze.setLocationState(curNode.getLocation(), State.PATH);
             }
+
+            curNode = curNode.getParent();
         }
     }
 
     void solveDFS(){
-        Location start = maze.getStart();
-        Stack<Node> path = new Stack<>();
-        Stack<Location> visited = new Stack<>();
-        DFS(maze.getStart(),path,visited);
-        if (maze.getLocationState(path.peek().getLocation()) == State.GOAL){
-            solved = true;
-            solvedPath = path;
-            drawPath();
+        Location startLocation = maze.getStart();
+        Set<Location> visited = new HashSet<>();
+        Node goal = DFS(null, startLocation, visited);
+        if (goal == null){
+            System.out.println("UNSOLVABLE!");
         }
+        drawPath(goal);
     }
 
-    private void DFS(Location loc, Stack<Node> path, Stack<Location> visited){
-
-        if (outOfBounds(loc.getRow(),loc.getCol())) return;
-        if (maze.getLocationState(loc) == State.BLOCKED) return;
-        if (visited.contains(loc)) return;
-        Node parent = null;
-
-        if (!path.isEmpty()){
-            Location parentLocation = path.peek().getLocation();
-            if (maze.getLocationState(parentLocation) == State.GOAL) return;
-            parent = path.peek();
+    private Node DFS(Node parent, Location loc, Set<Location> visited) {
+        if (outOfBounds(loc) || visited.contains(loc)){
+            return null;
         }
-        path.push(new Node(parent, loc, 0, 0));
-        visited.push(loc);
 
-        DFS(new Location(loc.getRow(), loc.getCol() - 1), path, visited);
-        DFS(new Location(loc.getRow() + 1, loc.getCol()), path, visited);
-        DFS(new Location(loc.getRow(), loc.getCol() + 1), path, visited);
-        DFS(new Location(loc.getRow() - 1, loc.getCol()), path, visited);
+        State currentLocState = maze.getLocationState(loc);
+//        State parentState = null;
+//
+//        if (parent != null){
+//            parentState = maze.getLocationState(parent.getLocation());
+//        }
+
+        if (currentLocState == State.BLOCKED) return null;
+        if (currentLocState == State.GOAL) return new Node(parent,loc,0,0);
+
+        visited.add(loc);
+
+        Location down = new Location(loc.getRow() + 1, loc.getCol());
+        Location left = new Location(loc.getRow(), loc.getCol() - 1);
+        Location right = new Location(loc.getRow(), loc.getCol() + 1);
+        Location up = new Location(loc.getRow() - 1, loc.getCol());
+
+        Node curNode = new Node(parent,loc,0,0);
+        Node goalNode = null;
+
+        Location[] locArr = new Location[] {down,left,right,up};
+
+        for (int i = 0; i < locArr.length && goalNode == null; i++) {
+            goalNode = DFS(curNode, locArr[i], visited);
+        }
+        return goalNode;
     }
 }

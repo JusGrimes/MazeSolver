@@ -1,5 +1,7 @@
 package com.justin;
 
+import java.util.Objects;
+
 public class Location {
     private final int row;
 
@@ -35,5 +37,10 @@ public class Location {
                 "row=" + row +
                 ", col=" + col +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col);
     }
 }

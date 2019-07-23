@@ -1,6 +1,5 @@
 package com.justin;
 
-import org.jetbrains.annotations.Contract;
 
 import java.util.Random;
 
