@@ -19,7 +19,7 @@ public class Main {
         double density = Double.parseDouble(in.nextLine());
 
 //        firstMaze = MazeFactory.middleStartGoal(rows, cols, density);
-        firstMaze = MazeFactory.standardMaze(rows, cols, density);
+        firstMaze = MazeFactory.createMaze("standard", rows, cols, density);
         System.out.println("Standard Maze");
         System.out.println("\n" + firstMaze);
 
@@ -29,10 +29,6 @@ public class Main {
         solver.solveDFS();
         System.out.println(solver.getMaze());
 
-//        System.out.println("Open Maze");
-//        System.out.println("\n" + MazeFactory.openMaze(rows, cols));
-//        System.out.println("Closed Maze");
-//        System.out.println("\n" + MazeFactory.closedMaze(rows, cols));
 
     }
 }

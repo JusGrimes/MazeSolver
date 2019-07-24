@@ -1,9 +1,8 @@
 package com.justin;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 class MazeSolver {
@@ -43,46 +42,54 @@ class MazeSolver {
         }
     }
 
+    private List<Location> neighbors(Location loc) {
+        Location down = new Location(loc.getRow() + 1, loc.getCol());
+        Location left = new Location(loc.getRow(), loc.getCol() - 1);
+        Location right = new Location(loc.getRow(), loc.getCol() + 1);
+        Location up = new Location(loc.getRow() - 1, loc.getCol());
+
+        return Stream.of(up,left,right,down)
+                .filter(location -> !outOfBounds(location))
+                .filter(location -> maze.getLocationState(location) != State.BLOCKED)
+                .collect(Collectors.toList());
+    }
+
+
     void solveDFS(){
-        Location startLocation = maze.getStart();
-        Set<Location> visited = new HashSet<>();
-        Node goal = DFS(null, startLocation, visited);
+        Stack<Node> frontier = new Stack<>();
+        Set<Location> explored = new HashSet<>();
+        Location currentLocation = maze.getStart();
+        Node goal = null;
+        frontier.push(new Node(null, currentLocation, 0, 0));
+
+        // push start location
+        explored.add(currentLocation);
+
+        while (!frontier.isEmpty()) {
+
+            Node curNode = frontier.pop();
+            currentLocation = curNode.getLocation();
+            State curLocState = maze.getLocationState(currentLocation);
+
+            if (curLocState == State.GOAL) {
+                goal = curNode;
+                break;
+            }
+
+            for (Location newNeighborLoc :
+                    neighbors(currentLocation)) {
+                if (explored.contains(newNeighborLoc)) {
+                    continue;
+                }
+                explored.add(newNeighborLoc);
+                frontier.push(new Node(curNode, newNeighborLoc, 0, 0));
+            }
+        }
+
         if (goal == null){
             System.out.println("UNSOLVABLE!");
         }
         drawPath(goal);
     }
 
-    private Node DFS(Node parent, Location loc, Set<Location> visited) {
-        if (outOfBounds(loc) || visited.contains(loc)){
-            return null;
-        }
-
-        State currentLocState = maze.getLocationState(loc);
-//        State parentState = null;
-//
-//        if (parent != null){
-//            parentState = maze.getLocationState(parent.getLocation());
-//        }
-
-        if (currentLocState == State.BLOCKED) return null;
-        if (currentLocState == State.GOAL) return new Node(parent,loc,0,0);
-
-        visited.add(loc);
-
-        Location down = new Location(loc.getRow() + 1, loc.getCol());
-        Location left = new Location(loc.getRow(), loc.getCol() - 1);
-        Location right = new Location(loc.getRow(), loc.getCol() + 1);
-        Location up = new Location(loc.getRow() - 1, loc.getCol());
-
-        Node curNode = new Node(parent,loc,0,0);
-        Node goalNode = null;
-
-        Location[] locArr = new Location[] {down,left,right,up};
-
-        for (int i = 0; i < locArr.length && goalNode == null; i++) {
-            goalNode = DFS(curNode, locArr[i], visited);
-        }
-        return goalNode;
-    }
 }
