@@ -55,8 +55,9 @@ class MazeSolver {
     }
 
 
-    void solveDFS(){
-        Stack<Node> frontier = new Stack<>();
+    void solveDFSorBFS(String solveAlgo){
+        boolean solveDFS = solveAlgo.equals("DFS");
+        Deque<Node> frontier = new ArrayDeque<>();
         Set<Location> explored = new HashSet<>();
         Location currentLocation = maze.getStart();
         Node goal = null;
@@ -66,9 +67,15 @@ class MazeSolver {
         explored.add(currentLocation);
 
         while (!frontier.isEmpty()) {
-
-            Node curNode = frontier.pop();
-            currentLocation = curNode.getLocation();
+            Node curNode;
+            if (solveDFS) {
+                curNode = frontier.pollLast();
+            } else {
+                curNode = frontier.poll();
+            }
+            if (curNode != null) {
+                currentLocation = curNode.getLocation();
+            }
             State curLocState = maze.getLocationState(currentLocation);
 
             if (curLocState == State.GOAL) {
@@ -82,7 +89,12 @@ class MazeSolver {
                     continue;
                 }
                 explored.add(newNeighborLoc);
-                frontier.push(new Node(curNode, newNeighborLoc, 0, 0));
+                Node newNode = new Node(curNode, newNeighborLoc, 0, 0);
+                if (solveDFS) {
+                    frontier.push(newNode);
+                } else {
+                    frontier.addFirst(newNode);
+                }
             }
         }
 
