@@ -11,12 +11,13 @@ class MazeSolver {
     final private int colSize;
     private Stack<Node> solvedPath;
     private boolean solved = false;
+    private Algorithm algorithm;
 
-    MazeSolver(Maze maze) {
+    MazeSolver(Maze maze, Algorithm algorithm) {
         this.maze = maze;
         rowSize = maze.getRowSize();
         colSize = maze.getColSize();
-
+        this.algorithm = algorithm;
     }
 
     Maze getMaze(){
@@ -55,24 +56,21 @@ class MazeSolver {
     }
 
 
-    void solveDFSorBFS(String solveAlgo){
-        boolean solveDFS = solveAlgo.equals("DFS");
-        Deque<Node> frontier = new ArrayDeque<>();
+
+    void solve(){
         Set<Location> explored = new HashSet<>();
         Location currentLocation = maze.getStart();
         Node goal = null;
-        frontier.push(new Node(null, currentLocation, 0, 0));
+        algorithm.addNewNode(null, currentLocation);
 
         // push start location
         explored.add(currentLocation);
 
-        while (!frontier.isEmpty()) {
+        while (!algorithm.isEmpty()) {
             Node curNode;
-            if (solveDFS) {
-                curNode = frontier.pollLast();
-            } else {
-                curNode = frontier.poll();
-            }
+
+            curNode = algorithm.poll();
+
             if (curNode != null) {
                 currentLocation = curNode.getLocation();
             }
@@ -89,12 +87,7 @@ class MazeSolver {
                     continue;
                 }
                 explored.add(newNeighborLoc);
-                Node newNode = new Node(curNode, newNeighborLoc, 0, 0);
-                if (solveDFS) {
-                    frontier.push(newNode);
-                } else {
-                    frontier.addFirst(newNode);
-                }
+                algorithm.addNewNode(curNode, newNeighborLoc);
             }
         }
 

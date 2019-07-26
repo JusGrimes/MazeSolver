@@ -25,8 +25,8 @@ public class Main {
 
         System.out.println("Solved Maze");
 
-        MazeSolver solver = new MazeSolver(firstMaze.copy());
-        solver.solveDFSorBFS("DFS");
+        MazeSolver solver = new MazeSolver(firstMaze.copy(), new BreadthFirstSearch());
+        solver.solve();
         System.out.println(solver.getMaze());
 
 
