@@ -25,7 +25,7 @@ public class Main {
 
         System.out.println("Solved Maze");
 
-        MazeSolver solver = new MazeSolver(firstMaze.copy(), new BreadthFirstSearch());
+        MazeSolver solver = new MazeSolver(firstMaze.copy(), new AStarSearch());
         solver.solve();
         System.out.println(solver.getMaze());
 

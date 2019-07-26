@@ -60,8 +60,9 @@ class MazeSolver {
     void solve(){
         Set<Location> explored = new HashSet<>();
         Location currentLocation = maze.getStart();
+        Location goalLocation = maze.getGoal();
         Node goal = null;
-        algorithm.addNewNode(null, currentLocation);
+        algorithm.addNewNode(null, currentLocation,0, goalLocation);
 
         // push start location
         explored.add(currentLocation);
@@ -87,7 +88,7 @@ class MazeSolver {
                     continue;
                 }
                 explored.add(newNeighborLoc);
-                algorithm.addNewNode(curNode, newNeighborLoc);
+                algorithm.addNewNode(curNode, newNeighborLoc,curNode.getCost() + 1, goalLocation);
             }
         }
 

@@ -1,9 +1,18 @@
 package com.justin;
 
-public class Node {
+public class Node implements Comparable<Node>{
 
     private Node parent;
     private Location location;
+
+    public double getCost() {
+        return cost;
+    }
+
+    public double getHeuristic() {
+        return heuristic;
+    }
+
     private double cost;
     private double heuristic;
 
@@ -28,5 +37,10 @@ public class Node {
                 "row: " + location.getRow() +
                 "col: " + location.getCol() +
                 "}}";
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return (int) ((this.cost + this.heuristic) - (o.cost + o.heuristic));
     }
 }
